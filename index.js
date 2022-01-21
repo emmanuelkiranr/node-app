@@ -17,17 +17,33 @@ project and then reinstall them all at once at a different system*/
 // const express = require("express");
 
 /* the actual code of the dependency lives in the node modules directory; The package.json file fetches the 
-remote package and saves the source code to node modules*/
+remote package and saves the source code to node modules/../express/index.js directory*/
+
+
 
 
 const express = require('express'); // import express from the express module
-const app = express();
-const { readFile } = require('fs').promises;
+const { get } = require("express/lib/response");
+const { response } = require("express");
+const { readFile } = require('fs');
+const app = express(); /* create an instance of express app this allows us to create different urls and
+endpoints that a user can navigate to in the browser.*/
 
-app.get('/', async (request, response) => {
-
-    response.send( await readFile('./home.html', 'utf8') );
-
+app.get('/',(request, response) => {
+    readFile('./home.html', 'utf8', (err, html) => {
+        if (err) {
+            response.status(500).send("Server error")
+        }
+        response.send(html);
+    })
 });
+
+// using promises
+
+// app.get('/', async (request, response) => {
+
+//     response.send( await readFile('./home.html', 'utf8') );
+
+// });
 
 app.listen(process.env.PORT || 3000, () => console.log(`App available on http://localhost:3000`))
