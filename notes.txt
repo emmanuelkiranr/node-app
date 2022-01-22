@@ -1,0 +1,83 @@
+//index.js
+default entry point to a nodejs app index.js
+run the code -> node index.js || node . since its an index.js file we can point to the parent directory 
+
+<-------------------------------------------------END------------------------------------------------->
+
+// events
+events and callbacks useful for cpu intensive tasks
+
+//eg of builtin event
+
+process.on('exit', function() {
+    we can listen to event using 'on' and register a call back fn as 2nd argument
+    
+    when the exit event occurs nodejs will run the function
+      /* its called callback fn cause the fn isnt called first time nodejs sees it,
+       its called only when an "exit" event occurs in future*/
+})
+
+eg for custom event - events.js
+<-------------------------------------------------END------------------------------------------------->
+
+//file system
+node has a builtin file system module called 'fs' it can read, write and delete files on the file system
+and it can also do things in a 'blocking' or 'non-blocking' way
+
+sync === Blocking ie it'll need to finish all its work before any of your other code can run
+
+const {readFile, readFileSync} = require('fs'); // import that form fs filesystem module
+
+// eg Blocking- only after reading the text rest of code is executed
+
+const txt = readFileSync('./hello.txt', 'utf8'); // read file
+console.log(txt); // if its a large file it may take time   1st
+console.log("Do it ASAP!!!") // 2nd
+
+/* eg non-blocking - here node registers the callback, executes the rest of the rest of the script 
+and finally runs the callback when the file has been read*/ 
+
+readFile('./hello.txt', 'utf8', (err, txt) => {
+    console.log(txt);
+})
+console.log("Do it ASAP!!!")
+
+<-------------------------------------------------END------------------------------------------------->
+
+//modules 
+These are js file that exports its code; node has buildin modules
+        input a module to node COMMON JS => require();
+        ES modules => import/export syntax 
+
+Assume this file services a module initially returns empty object so add code to be exported
+        module.exports = {
+        Name : "Emmanuel"
+        }
+        
+        In index.js
+        const myModule = require("./my-modules"); //import the module to the var myModule using require()
+        console.log(myModule);
+
+<-------------------------------------------------END------------------------------------------------->
+
+// npm
+npm -> helps to import other peoples module/code instead of writing it ourself 
+    install packages locally - npm install packagename
+    global install - npm install -g pkgname
+
+npm init -> creates a package.json which contains the metadata of our project and keeps track of the
+            dependency that we use; so other people can run npm install 
+            [which will read the package.json file and install all the package listed]
+
+npm list - shows all pkgs that our installed pkg depends on
+
+when we install packages [npm install express] it will add express to a dependency in the package.json file
+and peg it to a specific version; This dependency object will help us manage multiple dependency in this 
+project and then reinstall them all at once at a different system [via npm install]
+
+const express = require("express"); 
+
+The actual code of the dependency/module lives in the node modules directory; 
+The package.json file fetches the remote package and saves the source code to
+node modules/../express/index.js directory
+
