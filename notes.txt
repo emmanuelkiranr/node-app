@@ -62,7 +62,7 @@ Assume this file services a module initially returns empty object so add code to
 
 // npm
 npm -> helps to import other peoples module/code instead of writing it ourself 
-    install packages locally - npm install packagename
+    install packages locally - npm install packagename [newest public release]
     global install - npm install -g pkgname
 
 npm init -> creates a package.json which contains the metadata of our project and keeps track of the
@@ -81,3 +81,25 @@ The actual code of the dependency/module lives in the node modules directory;
 The package.json file fetches the remote package and saves the source code to
 node modules/../express/index.js directory
 
+npm view pkgname versions 
+this will list all versions of pkg
+^ - npm will update only to latest minor and patch version for the currently installed major version
+
+To install latest major version
+npm install pkgname@latest
+to install old / latest major version
+npm install pkgname@5 (version number)
+
+<-------------------------------------------------END------------------------------------------------->
+
+//package-lock.json file
+This file records the actual specific versions of each pkg and dependency that you have installed
+This file exist to prevent compatiability issues that can arise when using package.json file in a different 
+environment
+
+say you clone a github repo with certain version of dependency in package.json file (since ^ is present)
+when we npm install that repo we might be using the latest minor/patch version of that dependency which might
+have compatiability issue with other dependent packages its a problem to our project
+
+so if you npm install and there is a package-lock.json file in addition to package.json, it will install the 
+exact major, minor, patch version of the dependency
